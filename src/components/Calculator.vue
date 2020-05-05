@@ -36,74 +36,87 @@
     </el-row>
 
     <!-- results -->
-    <el-table
+    <div
       v-if="chainstay && variations"
-      :data="variations"
-      :default-sort = "{
-        prop: 'tensionIndicator',
-        order: 'descending'
-      }"
-      stripe
-      style="width: 100%"
-      empty-text="There is no working configuration for this value :-("
     >
-      <el-table-column
-        prop="t1"
-        label="Front gear"
-        sortable
-        min-width="120px"
+      <div class="input-label">
+        {{ variations.length }} configurations
+      </div>
+      <el-table
+        :data="variations"
+        :default-sort = "{
+          prop: 'tensionIndicator',
+          order: 'descending'
+        }"
+        stripe
+        style="width: 100%"
+        empty-text="There is no working configuration for this value :-("
       >
-      </el-table-column>
-      <el-table-column
-        prop="t2"
-        label="Rear gear"
-        sortable
-        min-width="120px"
-      >
-      </el-table-column>
-      <el-table-column
-        prop="ratio"
-        label="Ratio"
-        sortable
-        min-width="100px"
-      >
-        <template slot-scope="scope">
-          <el-tag
-            :type="ratioTag(scope.row.ratio)"
-            disable-transitions
-          >
-            {{ scope.row.ratio }}
-          </el-tag>
-        </template>
-      </el-table-column>
-      <el-table-column
-        prop="links"
-        :label="halfLink ? 'Half links' : 'Links'"
-        sortable
-        min-width="110px"
-      >
-      </el-table-column>
-      <!-- <el-table-column
-        prop="tension"
-        label="Tension"
-      >
-      </el-table-column> -->
-      <el-table-column
-        prop="tensionIndicator"
-        label="Tension quality"
-        sortable
-        min-width="150px"
-      >
-        <template slot-scope="scope">
-          <el-tag
-            :type="tensionQuality(scope.row.tensionIndicator).tag"
-            disable-transitions
-          >
-            {{ tensionQuality(scope.row.tensionIndicator).label }} ({{ scope.row.tensionIndicator }} %)
-          </el-tag>
-        </template>
-      </el-table-column>
-    </el-table>
+        <el-table-column
+          prop="t1"
+          label="Front gear"
+          sortable
+          min-width="120px"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="t2"
+          label="Rear gear"
+          sortable
+          min-width="120px"
+        >
+        </el-table-column>
+        <el-table-column
+          prop="ratio"
+          label="Ratio"
+          sortable
+          min-width="100px"
+        >
+          <template slot-scope="scope">
+            <el-tag
+              :type="ratioTag(scope.row.ratio)"
+              disable-transitions
+            >
+              {{ scope.row.ratio.toPrecision(3) }}
+            </el-tag>
+          </template>
+        </el-table-column>
+        <!-- <el-table-column
+          prop="rawLinks"
+          label="raw links"
+          sortable
+          min-width="110px"
+        >
+        </el-table-column> -->
+        <el-table-column
+          prop="links"
+          :label="halfLink ? 'Half links' : 'Links'"
+          sortable
+          min-width="110px"
+        >
+        </el-table-column>
+        <!-- <el-table-column
+          prop="tension"
+          label="Tension"
+        >
+        </el-table-column> -->
+        <el-table-column
+          prop="tensionIndicator"
+          label="Chain tension"
+          sortable
+          min-width="150px"
+        >
+          <template slot-scope="scope">
+            <el-tag
+              :type="tensionQuality(scope.row.tensionIndicator).tag"
+              disable-transitions
+            >
+              {{ tensionQuality(scope.row.tensionIndicator).label }} ({{ Math.round(scope.row.tensionIndicator) }} %)
+            </el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
   </div>
 </template>
 
@@ -115,6 +128,7 @@ export default {
   data() {
     return {
       chainstay: undefined,
+      // chainstay: 41.5,
       halfLink: false,
       ratioMin: 1.9,
       ratioMax: 4
@@ -139,21 +153,28 @@ export default {
     tensionQuality(tensionIndicator) {
       if (tensionIndicator > 90) {
         return {
-          label: 'Ideal',
+          label: 'High',
           tag: 'primary'
+        }
+      }
+
+      if (tensionIndicator > 80) {
+        return {
+          label: 'Medium',
+          tag: 'success'
         }
       }
 
       if (tensionIndicator > 70) {
         return {
-          label: 'Good',
-          tag: 'success'
+          label: 'Acceptable',
+          tag: 'info'
         }
       }
 
       return {
-        label: 'Acceptable',
-        tag: 'info'
+        label: 'Low',
+        tag: 'danger'
       }
     },
     ratioTag(ratio) {
