@@ -3,10 +3,17 @@
     <el-row :gutter="20">
       <el-col :span="8">
         <el-input
+          v-model="chainstay"
           placeholder="Chainstay length"
           type="number"
-          v-model="chainstay"
         ></el-input>
+      </el-col>
+      <el-col :span="8">
+       <el-checkbox
+        v-model="halfLink"
+        label="Half link"
+        border
+       ></el-checkbox>
       </el-col>
     </el-row>
 
@@ -29,7 +36,7 @@
       </el-table-column>
       <el-table-column
         prop="links"
-        label="Links">
+        :label="halfLink ? 'Half links' : 'Links'">
       </el-table-column>
       <el-table-column
         prop="tension"
@@ -46,12 +53,13 @@ export default {
   name: 'Calculator',
   data() {
     return {
-      chainstay: undefined
+      chainstay: undefined,
+      halfLink: false
     }
   },
   computed: {
     variations() {
-      return compute(this.chainstay)
+      return compute(this.chainstay, this.halfLink)
     }
   }
 }
