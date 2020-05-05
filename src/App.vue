@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <calculator :chainstay="40.5"/>
+    <calculator />
   </div>
 </template>
 

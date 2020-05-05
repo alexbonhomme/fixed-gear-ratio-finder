@@ -1,20 +1,12 @@
 <template>
   <div>
     <el-row :gutter="20">
-      <el-col :span="7">
+      <el-col :span="8">
         <el-input
           placeholder="Chainstay length"
           type="number"
           v-model="chainstay"
         ></el-input>
-      </el-col>
-      <el-col :span="17">
-        <el-button
-          :disabled="!chainstay"
-          @click="computeVariations()"
-        >
-          Compute configurations
-        </el-button>
       </el-col>
     </el-row>
 
@@ -45,30 +37,21 @@
       </el-table-column>
     </el-table>
   </div>
-
 </template>
 
 <script>
 import { compute } from '@/helpers/engine'
 
 export default {
-  // props: {
-  //   chainstay: {
-  //     type: Number,
-  //     required: true
-  //   }
-  // },
+  name: 'Calculator',
   data() {
     return {
-      chainstay: undefined,
-      variations: undefined
+      chainstay: undefined
     }
   },
-  methods: {
-    computeVariations() {
-      this.variations = compute(this.chainstay)
-
-      console.debug(this.variations)
+  computed: {
+    variations() {
+      return compute(this.chainstay)
     }
   }
 }
