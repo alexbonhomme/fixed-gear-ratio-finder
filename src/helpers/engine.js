@@ -81,12 +81,8 @@ function computeVariations(t1List, t2List, chainstay, halfLink = false) {
     }
   })
 
-  // filter & order variations of tension parameter
-  const variationListWithTensionOk = variationList
-    .filter(variation => variation.isTensionOk)
-    .sort((varA, varB) => varA.tension - varB.tension)
-
-  return variationListWithTensionOk
+  // filter variations on tension parameter
+  return variationList.filter(variation => variation.isTensionOk)
 }
 
 function compute(chainstay, halfLink = false) {

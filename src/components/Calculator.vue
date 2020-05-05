@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- form -->
     <div class="input-label">Chainstay length in CM</div>
     <el-row :gutter="20">
       <el-col :span="8">
@@ -34,9 +35,14 @@
       </el-col>
     </el-row>
 
+    <!-- results -->
     <el-table
       v-if="chainstay && variations"
       :data="variations"
+      :default-sort = "{
+        prop: 'tensionIndicator',
+        order: 'descending'
+      }"
       stripe
       style="width: 100%"
       empty-text="There is no working configuration for this value :-("
@@ -44,16 +50,22 @@
       <el-table-column
         prop="t1"
         label="Front gear"
+        sortable
+        min-width="120px"
       >
       </el-table-column>
       <el-table-column
         prop="t2"
         label="Rear gear"
+        sortable
+        min-width="120px"
       >
       </el-table-column>
       <el-table-column
         prop="ratio"
         label="Ratio"
+        sortable
+        min-width="100px"
       >
         <template slot-scope="scope">
           <el-tag
@@ -67,6 +79,8 @@
       <el-table-column
         prop="links"
         :label="halfLink ? 'Half links' : 'Links'"
+        sortable
+        min-width="110px"
       >
       </el-table-column>
       <!-- <el-table-column
@@ -77,6 +91,8 @@
       <el-table-column
         prop="tensionIndicator"
         label="Tension quality"
+        sortable
+        min-width="150px"
       >
         <template slot-scope="scope">
           <el-tag
