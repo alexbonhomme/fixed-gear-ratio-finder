@@ -6,8 +6,10 @@ const TENSION_DELTA = {
   max: 0.48
 }
 
-const T1_LIST = [ 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42 ]
-const T2_LIST = [ 19, 18, 17, 16, 15, 14 ]
+const generateList = (from, to) => Array.from({ length: to - from + 1 }, (_, k) => k + from)
+
+const T1_LIST = generateList(42, 52)
+const T2_LIST = generateList(14, 19)
 
 function computeChainLength(chainstay, t1, t2) {
   const D1 = t1 * L
