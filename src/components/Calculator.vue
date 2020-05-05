@@ -18,9 +18,11 @@
     </el-row>
 
     <el-table
+      v-if="chainstay && variations"
       :data="variations"
       stripe
       style="width: 100%"
+      empty-text="There is no working configuration for this value :-("
     >
       <el-table-column
         prop="t1"
@@ -58,7 +60,7 @@ export default {
   data() {
     return {
       chainstay: undefined,
-      variations: []
+      variations: undefined
     }
   },
   methods: {
