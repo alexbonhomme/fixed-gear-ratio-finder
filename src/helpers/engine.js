@@ -4,7 +4,7 @@ const Lr = L / (2 * Math.PI)
 const T1List = [ 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42 ]
 const T2List = [ 19, 18, 17, 16, 15, 14 ]
 
-function computeRawLinks(chainstay, t1, t2) {
+function computeChainLength(chainstay, t1, t2) {
   const D1 = t1 * L
   const D2 = t2 * L
 
@@ -31,7 +31,19 @@ function generateTupleList(t1List, t2List) {
     , [])
 }
 
-function computeVariations(t1List, t2List, chainstay) {
+function computeLinks(chainstay, t1, t2, halfLink = false) {
+  const linkSize = halfLink ? L : L * 2
+
+  const rawLinks = computeChainLength(chainstay, t1, t2) / linkSize
+  const links = Math.round(rawLinks)
+
+  return {
+    rawLinks,
+    links
+  }
+}
+
+function computeVariations(t1List, t2List, chainstay, halfLink = false) {
   // generate
   const T1T2TupleList = generateTupleList(t1List, t2List)
 
@@ -39,8 +51,7 @@ function computeVariations(t1List, t2List, chainstay) {
   const variationList = T1T2TupleList.map(T1T2Tuple => {
     const [t1, t2] = T1T2Tuple
 
-    const rawLinks = computeRawLinks(chainstay, t1, t2) / (L * 2)
-    const links = Math.round(rawLinks)
+    const { rawLinks, links } = computeLinks(chainstay, t1, t2, halfLink)
     const tension = (rawLinks - links).toPrecision(3)
 
     return {
@@ -61,8 +72,8 @@ function computeVariations(t1List, t2List, chainstay) {
   return variationListWithTensionOk
 }
 
-function compute(chainstay) {
-  return computeVariations(T1List, T2List, chainstay)
+function compute(chainstay, halfLink = false) {
+  return computeVariations(T1List, T2List, chainstay, halfLink)
 }
 
 export {
