@@ -27,20 +27,40 @@
       <el-table-column
         prop="t1"
         label="Front gear"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="t2"
         label="Rear gear"
-        width="180">
+      >
+      </el-table-column>
+      <el-table-column
+        prop="ratio"
+        label="Ratio"
+      >
       </el-table-column>
       <el-table-column
         prop="links"
-        :label="halfLink ? 'Half links' : 'Links'">
+        :label="halfLink ? 'Half links' : 'Links'"
+      >
       </el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         prop="tension"
-        label="Tension indicator (lower is better)">
+        label="Tension"
+      >
+      </el-table-column> -->
+      <el-table-column
+        prop="tensionIndicator"
+        label="Tension quality"
+      >
+        <template slot-scope="scope">
+          <el-tag
+            :type="tensionQuality(scope.row.tensionIndicator).tag"
+            disable-transitions
+          >
+            {{ tensionQuality(scope.row.tensionIndicator).label }} ({{ scope.row.tensionIndicator }} %)
+          </el-tag>
+        </template>
       </el-table-column>
     </el-table>
   </div>
@@ -60,6 +80,28 @@ export default {
   computed: {
     variations() {
       return compute(this.chainstay, this.halfLink)
+    }
+  },
+  methods: {
+    tensionQuality(tensionIndicator) {
+      if (tensionIndicator > 90) {
+        return {
+          label: 'Ideal',
+          tag: 'primary'
+        }
+      }
+
+      if (tensionIndicator > 70) {
+        return {
+          label: 'Good',
+          tag: 'success'
+        }
+      }
+
+      return {
+        label: 'Acceptable',
+        tag: 'info'
+      }
     }
   }
 }
