@@ -1,5 +1,8 @@
 <template>
   <div id="app">
+    <h1>Fixed gear configuration calculator</h1>
+    <p>This service computes front/rear gears configuration to have correct chain tension from given chainstay length.</p>
+
     <calculator />
   </div>
 </template>
