@@ -1,15 +1,20 @@
 const L = 1.27 // cm
-const Lr = L / (2 * Math.PI)
+const LR = L / (2 * Math.PI)
 
-const T1List = [ 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42 ]
-const T2List = [ 19, 18, 17, 16, 15, 14 ]
+const TENTION_DELTA = {
+  min: 0.35,
+  max: 0.48
+}
+
+const T1_LIST = [ 52, 51, 50, 49, 48, 47, 46, 45, 44, 43, 42 ]
+const T2_LIST = [ 19, 18, 17, 16, 15, 14 ]
 
 function computeChainLength(chainstay, t1, t2) {
   const D1 = t1 * L
   const D2 = t2 * L
 
   const h = Math.sqrt(
-    ((t1 - t2) * Lr) + (chainstay * chainstay)
+    ((t1 - t2) * LR) + (chainstay * chainstay)
   )
 
   const LG = (2 * h) + ((D1 + D2) / 2)
@@ -18,7 +23,7 @@ function computeChainLength(chainstay, t1, t2) {
 }
 
 function isTensionOk(tension) {
-  return tension > 0.35 && tension < 0.48
+  return tension > TENTION_DELTA.min && tension < TENTION_DELTA.max
 }
 
 function generateTupleList(t1List, t2List) {
@@ -73,7 +78,7 @@ function computeVariations(t1List, t2List, chainstay, halfLink = false) {
 }
 
 function compute(chainstay, halfLink = false) {
-  return computeVariations(T1List, T2List, chainstay, halfLink)
+  return computeVariations(T1_LIST, T2_LIST, chainstay, halfLink)
 }
 
 export {
