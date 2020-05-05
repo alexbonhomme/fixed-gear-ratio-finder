@@ -1,13 +1,14 @@
 <template>
   <div>
     <el-row :gutter="20">
-      <el-col :span="4">
+      <el-col :span="7">
         <el-input
           placeholder="Chainstay length"
+          type="number"
           v-model="chainstay"
         ></el-input>
       </el-col>
-      <el-col :span="20">
+      <el-col :span="17">
         <el-button
           :disabled="!chainstay"
           @click="computeVariations()"
